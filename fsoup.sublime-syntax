@@ -1,0 +1,41 @@
+%YAML 1.2
+---
+# Fsoup - fudo.su
+file_extensions:
+  - fsoup
+  - Fsoup
+  - FSoup
+  - FSOUP
+  - fSoup
+scope: source.fsoup
+contexts:
+  prototype:
+    - include: grammar
+    - include: comments
+  main:
+    - include: title
+    - include: delenye
+    - include: text
+  title:
+    - match: '(.+)(?=;=)'
+      scope: keyword.control.fsoup
+  delenye:
+    - match: '\b(\;\=)\b'
+      scope: constant.numeric.fsoup
+  text:
+    - match: '.'
+      scope: string.quoted.double.fsoup
+  grammar:
+    - match: '(^\:{1})|(\:\.)|(\:,{1})'
+      scope: comment.line.double-slash.fsoup
+      push:
+        - meta_scope: comment.line.double-slash.fsoup
+        - match: ()
+          pop: true
+  comments:
+    - match: ';;'
+      scope: comment.line.double-slash.fsoup
+      push:
+        - meta_scope: comment.line.double-slash.fsoup
+        - match: .+
+          pop: true
